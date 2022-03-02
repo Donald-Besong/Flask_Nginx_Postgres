@@ -22,10 +22,10 @@ project_description
 
 ## Usage
 
-1. Bootstrap the DB
+1. Clone the repositry and open the terminal in the root directory.
 ```bash
-$ docker-compose up -d db
-$ docker-compose run --rm flaskapp /bin/bash -c "cd /opt/services/flaskapp/src && python -c  'import database; database.init_db()'"
+$ docker-compose up -d postgres_service
+$ docker-compose run --rm flask_service /bin/bash -c "cd /opt/services/flaskapp/src && python -c  'import database; database.init_db()'"
 ```
 
 2. Bring up the cluster
@@ -33,7 +33,7 @@ $ docker-compose run --rm flaskapp /bin/bash -c "cd /opt/services/flaskapp/src &
 $ docker-compose up -d
 ```
 
-3. Browse to localhost:8080 to see the app in action.
+3. Browse to localhost:8080 to see the enjoy the amazing app.
 
 ## Notes
 In database.py, engine = create_engine('postgresql://%s:%s@%s:%s/%s' % (user, pwd, host, port, db)) 
