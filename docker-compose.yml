@@ -1,0 +1,43 @@
+version: '3'
+services:
+  postgres_service:
+    container_name: postgres_container
+    image: "postgres:9.6.5"
+    volumes:
+      - "dbdata:/var/lib/postgresql/data"
+    env_file:
+      - env_file
+    networks:
+      - db_nw
+  flask_service:
+    container_name: flask_container
+    image: flask_image
+    build: .
+    env_file:
+      - env_file
+    volumes:
+      - flask_shared:/opt/services/flaskapp/src
+    networks:
+      - db_nw
+      - web_nw
+    depends_on:
+      - postgres_service
+  nginx_service:
+    container_name: nginx_container
+    image: "nginx:1.13.5"
+    ports:
+      - "8080:80"
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+    networks:
+      - web_nw
+    depends_on: 
+      - flask_service
+networks:
+  db_nw:
+    driver: bridge
+  web_nw:
+    driver: bridge
+volumes:
+  dbdata:
+  flask_shared:
